@@ -5,12 +5,6 @@
 
 using namespace std;
 
-//./dbms --file list.txt --type single --query 'LPUSH 5'
-//./dbms --file list.txt --type double --query 'LGET 10'
-
-
-
-
 // Узел для двусвязного списка
 struct Node {
     int data;
@@ -37,6 +31,7 @@ public:
     virtual void displayList() = 0;
     virtual void saveToFile(const string& filename) = 0;
     virtual void loadFromFile(const string& filename) = 0;
+    virtual void printList() = 0; // Добавляем новую команду
 };
 
 // Реализация двусвязного списка
@@ -121,6 +116,10 @@ public:
         } else {
             cerr << "Unable to open file for reading!" << endl;
         }
+    }
+
+    void printList() override {
+        displayList();
     }
 
 private:
@@ -209,6 +208,10 @@ public:
         }
     }
 
+    void printList() override {
+        displayList();
+    }
+
 private:
     SingleNode* head;
 };
@@ -231,6 +234,8 @@ void processCommand(ListInterface& list, const string& command) {
     } else if (cmd == "LGET") {
         iss >> value;
         list.getValue(value);
+    } else if (cmd == "LPRINT") {
+        list.printList();
     } else {
         cout << "Unknown command: " << command << endl;
     }
@@ -273,4 +278,3 @@ int main(int argc, char* argv[]) {
     delete list;
     return 0;
 }
-

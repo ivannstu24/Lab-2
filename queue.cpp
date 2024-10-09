@@ -5,11 +5,6 @@
 
 using namespace std;
 
-//./dbms2 --file queue.data --query 'QPUSH 10'
-//./dbms2 --file queue.data --query 'QPUSH 20'
-
-
-
 // Узел для очереди
 struct QueueNode {
     int data;
@@ -128,6 +123,8 @@ void processCommand(QueueInterface& queue, const string& command) {
         queue.dequeue();
     } else if (cmd == "QPEEK") {
         queue.peek();
+    } else if (cmd == "QPRINT") {
+        queue.displayQueue();
     } else {
         cout << "Unknown command: " << command << endl;
     }
@@ -153,7 +150,6 @@ int main(int argc, char* argv[]) {
 
     queue.loadFromFile(filename);
     processCommand(queue, query);
-    queue.displayQueue();
     queue.saveToFile(filename);
 
     return 0;

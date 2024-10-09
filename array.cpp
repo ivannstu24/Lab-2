@@ -1,25 +1,10 @@
-
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
 
-
 using namespace std;
 
-
-//./array_program --file array.data --query 'MPUSH 15'    # Добавление 15 в конец
-//./array_program --file array.data --query 'MADD 1 20'   # Добавление 20 на позицию 1
-//./array_program --file array.data --query 'MGET 1'      # Получение значения по индексу 1
-//./array_program --file array.data --query 'MSET 1 30'   # Замена значения по индексу 1 на 30
-//./array_program --file array.data --query 'MDEL 2'      # Удаление элемента по индексу 2
-//./array_program --file array.data --query 'MLEN'        # Длина массива
-
-
-
-
-
-// Интерфейс для структуры "массив"
 class ArrayInterface {
 public:
     virtual void push(int value) = 0;
@@ -31,6 +16,7 @@ public:
     virtual void displayArray() = 0;
     virtual void saveToFile(const string& filename) = 0;
     virtual void loadFromFile(const string& filename) = 0;
+    virtual void printArray() = 0;  // Добавляем новую функцию
 };
 
 // Реализация массива на основе динамического выделения памяти
@@ -139,6 +125,11 @@ public:
         }
     }
 
+    // Вывод всех элементов массива
+    void printArray() override {
+        displayArray();
+    }
+
 private:
     int* array;    // Указатель на массив
     int size;      // Текущий размер массива
@@ -181,6 +172,8 @@ void processCommand(ArrayInterface& array, const string& command) {
         array.setByIndex(index, value);
     } else if (cmd == "MLEN") {
         cout << "Length of array: " << array.length() << endl;
+    } else if (cmd == "MPRINT") {
+        array.printArray();
     } else {
         cout << "Unknown command: " << command << endl;
     }
@@ -205,7 +198,6 @@ int main(int argc, char* argv[]) {
     Array array;
     array.loadFromFile(filename);
     processCommand(array, query);
-    array.displayArray();
     array.saveToFile(filename);
 
     return 0;

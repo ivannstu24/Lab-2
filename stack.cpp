@@ -5,7 +5,7 @@
 
 using namespace std;
 
-// Структура ноды для стека (связанный список)
+// Структура ноды для стека 
 struct Node {
     int data;       // Данные ноды
     Node* next;     // Указатель на следующий элемент
@@ -95,6 +95,17 @@ public:
         }
     }
 
+    // Вывод всех элементов стека
+    void sprint() const {
+        Node* current = top;
+        cout << "Stack elements: ";
+        while (current != nullptr) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+        cout << endl;
+    }
+
 private:
     Node* top;  // Вершина стека (указатель на последний добавленный элемент)
     int size;   // Текущий размер стека
@@ -116,6 +127,8 @@ void processCommand(Stack& stack, const string& command) {
         cout << "Popped top element from stack" << endl;
     } else if (cmd == "SREAD") {
         stack.readStack();
+    } else if (cmd == "SPRINT") {
+        stack.sprint();
     } else {
         cout << "Unknown command: " << command << endl;
     }
@@ -144,10 +157,3 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
-
-//./stack_program --file stack.data --query 'SPUSH 10'     # Добавление 10 на вершину стека
-//./stack_program --file stack.data --query 'SPUSH 20'     # Добавление 20 на вершину стека
-//./stack_program --file stack.data --query 'SREAD'        # Чтение всех элементов стека
-//./stack_program --file stack.data --query 'SPOP'         # Удаление элемента с вершины
-//./stack_program --file stack.data --query 'SREAD'        # Чтение всех элементов стека после удаления
-

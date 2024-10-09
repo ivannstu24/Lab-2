@@ -1,0 +1,43 @@
+Команды 
+
+Стек: (dbms4)
+
+./dbms4 --file stack.data --query 'SPUSH 10'     # Добавление 10 на вершину стека
+./dbms4 --file stack.data --query 'SPUSH 20'     # Добавление 20 на вершину стека
+./dbms4 --file stack.data --query 'SREAD'        # Чтение всех элементов стека
+./dbms4 --file stack.data --query 'SPOP'         # Удаление элемента с вершины
+./dbms4 --file stack.data --query 'SREAD'        # Чтение всех элементов стека после удаления
+
+
+
+Список:  (dbms)
+
+./dbms --file list.txt --type single --query 'LPUSH 5’ # Добавление 5
+./dbms --file list.txt --type double --query 'LGET 10' # Получение инфы про 10 
+
+
+Массив: (dbms3)
+
+./dbms3 --file array.data --query 'MPUSH 15'    # Добавление 15 в конец
+./dbms3 --file array.data --query 'MADD 1 20'   # Добавление 20 на позицию 1
+./dba --query 'MGET 1'      # Получение значения по индексу 1
+./dbms3 --file array.data --query 'MSET 1 30'   # Замена значения по индексу 1 на 30
+./dbms3 --file array.data --query 'MDEL 2'      # Удаление элемента по индексу 2
+./dbms3 --file array.data --query 'MLEN'        # Длина массива
+
+
+
+Очередь: (dbms2)
+
+./dbms2 --file queue.data --query 'QPUSH 10'
+./dbms2 --file queue.data --query 'QPUSH 20'
+
+
+
+Хеш-таблица: (dbms5)
+
+ ./dbms5 --file hash_table.data --query 'HSET mykey1 value1'     # Добавление элемента с ключом mykey1 и значением value1
+ ./dbms5 --file hash_table.data --query 'HGET mykey1'            # Получение значения по ключу mykey1
+ ./dbms5 --file hash_table.data --query 'HDEL mykey1'            # Удаление элемента по ключу mykey1
+
+

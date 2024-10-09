@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 // Структура Node для хранения пары ключ-значение в хеш-таблице
 struct Node {
     string key;   // Ключ элемента
@@ -144,6 +143,17 @@ public:
         }
     }
 
+    // Вывод всех значений хеш-таблицы
+    void hprint() const {
+        for (int i = 0; i < capacity; ++i) {
+            Node* current = table[i];
+            while (current != nullptr) {
+                cout << "[" << current->key << "] -> " << current->value << endl;
+                current = current->next;
+            }
+        }
+    }
+
 private:
     // Хеш-функция для вычисления индекса на основе ключа
     int hashFunction(const string& key) const {
@@ -173,6 +183,8 @@ void processCommand(HashTable& hashTable, const string& command) {
     } else if (cmd == "HDEL") {
         iss >> key;
         hashTable.hdel(key);
+    } else if (cmd == "HPRINT") {
+        hashTable.hprint();
     } else {
         cout << "Unknown command: " << command << endl;
     }
@@ -201,7 +213,3 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
-
-   // ./hash_program --file hash_table.data --query 'HSET mykey1 value1'     # Добавление элемента с ключом mykey1 и значением value1
-   // ./hash_program --file hash_table.data --query 'HGET mykey1'            # Получение значения по ключу mykey1
-   // ./hash_program --file hash_table.data --query 'HDEL mykey1'            # Удаление элемента по ключу mykey1
