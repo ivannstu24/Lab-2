@@ -26,12 +26,13 @@ struct SingleNode {
 class ListInterface {
 public:
     virtual void addToHead(int value) = 0;
+    virtual void addToTail(int value) = 0; // Добавляем новую команду
     virtual void deleteByValue(int value) = 0;
     virtual void getValue(int value) = 0;
     virtual void displayList() = 0;
     virtual void saveToFile(const string& filename) = 0;
     virtual void loadFromFile(const string& filename) = 0;
-    virtual void printList() = 0; // Добавляем новую команду
+    virtual void printList() = 0;
 };
 
 // Реализация двусвязного списка
@@ -47,6 +48,17 @@ public:
             newNode->next = head;
             head->prev = newNode;
             head = newNode;
+        }
+    }
+
+    void addToTail(int value) override {
+        Node* newNode = new Node(value);
+        if (tail == nullptr) {
+            head = tail = newNode;
+        } else {
+            newNode->prev = tail;
+            tail->next = newNode;
+            tail = newNode;
         }
     }
 
@@ -138,6 +150,19 @@ public:
         head = newNode;
     }
 
+    void addToTail(int value) override {
+        SingleNode* newNode = new SingleNode(value);
+        if (head == nullptr) {
+            head = newNode;
+        } else {
+            SingleNode* current = head;
+            while (current->next != nullptr) {
+                current = current->next;
+            }
+            current->next = newNode;
+        }
+    }
+
     void deleteByValue(int value) override {
         if (head == nullptr) return;
         
@@ -227,6 +252,10 @@ void processCommand(ListInterface& list, const string& command) {
         iss >> value;
         list.addToHead(value);
         cout << "Added " << value << " to head" << endl;
+    } else if (cmd == "RPUSH") { // Добавляем новую команду
+        iss >> value;
+        list.addToTail(value);
+        cout << "Added " << value << " to tail" << endl;
     } else if (cmd == "LDEL") {
         iss >> value;
         list.deleteByValue(value);
@@ -278,3 +307,4 @@ int main(int argc, char* argv[]) {
     delete list;
     return 0;
 }
+
